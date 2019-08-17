@@ -1,0 +1,11 @@
+(defn old-book->new-book [book]
+  (let [new-books #{} 
+        create-books (fn [[x]] (assoc new-books x))]
+    (map create-books book)))
+exit
+(contains? {:authors #{"Rich"}} :authors "Rich")
+(contains? (:authors {:authors #{"Rich"}}) "Rich")
+(:name {:name "The Shining" :authors #{"Stephen King"}})
+(:name (:authors {:name "The Shining" :authors #{"Stephen King"}}))
+(map #:name (:authors {:name "The Shining" :authors #{"Stephen King"}}))
+(map :name (:authors {:name "The Shining" :authors #{"Stephen King"}}))

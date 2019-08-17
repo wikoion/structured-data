@@ -52,52 +52,63 @@
       (contains-point? outer p2))))
 
 (defn title-length [book]
-  :-)
+  (count (:title book)))
 
 (defn author-count [book]
-  :-)
+  (count (:authors book)))
 
 (defn multiple-authors? [book]
-  :-)
+  (> (author-count book) 1))
 
 (defn add-author [book new-author]
-  :-)
+  (let [auth (:authors book)]
+    (assoc book :authors
+      (conj auth new-author))))
 
 (defn alive? [author]
-  :-)
+  (not (contains? author :death-year)))
 
 (defn element-lengths [collection]
-  :-)
+  (map count collection))
 
 (defn second-elements [collection]
-  :-)
+  (let [get-element (fn [inner] (get inner 1))]
+    (map get-element collection)))
 
 (defn titles [books]
-  :-)
+  (map :title books))
 
 (defn monotonic? [a-seq]
-  :-)
+  (if (apply <= a-seq)
+    true
+    false))
 
 (defn stars [n]
-  :-)
+  (apply str (repeat n "*")))
 
 (defn toggle [a-set elem]
-  :-)
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
 
 (defn contains-duplicates? [a-seq]
-  :-)
+  (not (== (count a-seq) (count (set a-seq)))))
 
 (defn old-book->new-book [book]
-  :-)
+  (assoc book :authors (set (:authors book))))
 
 (defn has-author? [book author]
-  :-)
+  (contains? (:authors book) author))
 
 (defn authors [books]
-  :-)
+  (let [author-names
+        (fn [book] (map :name (:authors book)))]
+    (set (apply concat (map author-names books)))))
 
 (defn all-author-names [books]
-  :-)
+  (let [author-names
+       (fn [authors-map] (map :authors (:name authors-map)))]
+    (set (apply concat (map author-names (authors books))))))
 
 (defn author->string [author]
   :-)
