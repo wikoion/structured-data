@@ -79,7 +79,10 @@
   (map :title books))
 
 (defn monotonic? [a-seq]
-  (if (apply <= a-seq)
+  (if 
+    (or 
+      (apply <= a-seq)
+      (apply >= a-seq))
     true
     false))
 
@@ -101,26 +104,32 @@
   (contains? (:authors book) author))
 
 (defn authors [books]
-  (let [author-names
-        (fn [book] (map :name (:authors book)))]
-    (set (apply concat (map author-names books)))))
+  (let [book-author
+        (fn [book] (:authors book))]
+    (set (apply concat (map book-author books)))))
 
 (defn all-author-names [books]
-  (let [author-names
-       (fn [authors-map] (map :authors (:name authors-map)))]
-    (set (apply concat (map author-names (authors books))))))
-
+  (set (map :name (authors books))))
+  
 (defn author->string [author]
-  :-)
+  (let [author-name (:name author)
+        death-year (:death-year author)
+        birth-year (:birth-year author)]
+    (if (contains? author :birth-year)
+      (apply str author-name " (" birth-year " - " death-year ")")
+      (str author-name))))
 
 (defn authors->string [authors]
-  :-)
+  (apply str (interpose ", " (map author->string authors))))
 
 (defn book->string [book]
-  :-)
+  (apply str (:title book) ", written by " (authors->string (:authors book))))
 
 (defn books->string [books]
-  :-)
+  (cond 
+    (empty? books) "No books."
+    (= (count books) 1) (str "1 book. " (apply str (interpose ", " (map book->string books))) ".")
+    :else (str (count books) " books. " (apply str (interpose ", " (map book->string books))) ".")))
 
 (defn books-by-author [author books]
   :-)

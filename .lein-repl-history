@@ -9,3 +9,33 @@ exit
 (:name (:authors {:name "The Shining" :authors #{"Stephen King"}}))
 (map #:name (:authors {:name "The Shining" :authors #{"Stephen King"}}))
 (map :name (:authors {:name "The Shining" :authors #{"Stephen King"}}))
+(:author {:author "test"})
+(defn authors [books]
+  (let [book-author
+        (fn [book] (:authors book))]
+    (set (apply concat (map book-author books)))))
+(defn all-author-names [books]
+  (let [author-names
+       (fn [author] (:name author))]
+    (set (apply concat (map author-names (authors books))))))
+(authors [{:author {:name "Johnson"}}])
+(defn author->string [author]
+  (let [author-name (:name author)
+        death-year (:death-year author)
+        birth-year (:birth-year author)]
+    (if (contains? author :birth-year)
+      (apply str author-name " (" birth-year " - " death-year ")")
+      (str author-name))))
+(defn authors->string [authors]
+  (apply str (interpose ", " (set (apply concat (map authors->string authors))))))
+(authors->string #{{:name "Dan" :birth-year "1991"} {:name "Charles"}})
+(#{"Charles (1991 - )" "Dan (1954 -2001)"})
+(println #{"Charles (1991 - )" "Dan (1954 -2001)"})
+(str #{"Charles (1991 - )" "Dan (1954 -2001)"})
+(apply str #{"Charles (1991 - )" "Dan (1954 -2001)"})
+(apply str (interpose ", " #{"Charles (1991 - )" "Dan (1954 -2001)"}))
+(= nil [])
+(= [] [])
+(= [] #{})
+(= nil #{})
+(empty? #{})
